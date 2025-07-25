@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import BlogCard from "@/components/blog-card";
+import AnimatedBlogCard from "@/components/animated-blog-card";
 import SEOHead from "@/components/seo-head";
 import { BlogPost } from "@shared/schema";
 
@@ -95,8 +95,8 @@ export default function BlogPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPosts.map((post) => (
-              <BlogCard key={post.id} post={post} />
+            {filteredPosts.map((post, index) => (
+              <AnimatedBlogCard key={post.id} post={post} index={index} />
             ))}
           </div>
         )}

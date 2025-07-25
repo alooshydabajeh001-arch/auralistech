@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import ProductCard from "@/components/product-card";
+import AnimatedProductCard from "@/components/animated-product-card";
 import SEOHead from "@/components/seo-head";
 import { Product } from "@shared/schema";
 import { Search, Filter } from "lucide-react";
@@ -152,8 +152,8 @@ export default function ProductsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredAndSortedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+            {filteredAndSortedProducts.map((product, index) => (
+              <AnimatedProductCard key={product.id} product={product} index={index} />
             ))}
           </div>
         )}

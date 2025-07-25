@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Header() {
   const [location] = useLocation();
@@ -23,32 +24,67 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-slate-800/95 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-700/50">
+    <motion.header 
+      className="bg-slate-800/95 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-700/50"
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center">
+          <motion.div 
+            className="flex items-center"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
             <Link href="/" className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-tech-green-500">Auralis</h1>
+              <motion.h1 
+                className="text-2xl font-bold text-tech-green-500"
+                animate={{
+                  textShadow: [
+                    "0 0 10px rgba(34, 197, 94, 0.3)",
+                    "0 0 20px rgba(34, 197, 94, 0.5)",
+                    "0 0 10px rgba(34, 197, 94, 0.3)",
+                  ],
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                Auralis
+              </motion.h1>
               <p className="text-xs text-slate-400 -mt-1">Smart Tech for the Future</p>
             </Link>
-          </div>
+          </motion.div>
           
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
-              {navigation.map((item) => (
-                <Link
+              {navigation.map((item, index) => (
+                <motion.div
                   key={item.name}
-                  href={item.href}
-                  className={`px-3 py-2 text-sm font-medium transition-colors ${
-                    isActive(item.href)
-                      ? "text-tech-green-500"
-                      : "text-slate-400 hover:text-tech-green-500"
-                  }`}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  whileHover={{ scale: 1.05 }}
                 >
-                  {item.name}
-                </Link>
+                  <Link
+                    href={item.href}
+                    className={`px-3 py-2 text-sm font-medium transition-colors relative ${
+                      isActive(item.href)
+                        ? "text-tech-green-500"
+                        : "text-slate-400 hover:text-tech-green-500"
+                    }`}
+                  >
+                    {item.name}
+                    {isActive(item.href) && (
+                      <motion.div
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-tech-green-500"
+                        layoutId="navbar-indicator"
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                      />
+                    )}
+                  </Link>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -100,6 +136,6 @@ export default function Header() {
           </div>
         )}
       </nav>
-    </header>
+    </motion.header>
   );
 }
